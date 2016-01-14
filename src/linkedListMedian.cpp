@@ -19,6 +19,18 @@ struct node {
 	struct node *next;
 };
 
-int linkedListMedian(struct node *head) {
-	return -1;
+int linkedListMedian(struct node *head) 
+{
+	struct node *previous_node = head;
+	struct node *current_node = head;
+	//traversing the linked list to find the median of the linked list
+	if (head != NULL)
+	{
+		while (current_node != NULL&&current_node->next != NULL)
+		{
+			current_node = current_node->next->next;
+			previous_node = previous_node->next;
+		}
+	}
+	return previous_node->num;
 }

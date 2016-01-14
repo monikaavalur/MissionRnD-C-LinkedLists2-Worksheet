@@ -19,6 +19,7 @@ struct node {
 	struct node *next;
 };
 
-struct node * insertAtEveryKthNode(struct node *head, int K) {
+struct node * insertAtEveryKthNode(struct node *head, int K)
+{
 	return NULL;
 }
