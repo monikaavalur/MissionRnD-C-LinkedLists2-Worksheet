@@ -10,7 +10,7 @@ ERROR CASES: Return NULL for error cases.
 
 NOTES:
 */
-
+struct node *insert_any(int pos, int data_value,struct node *head);
 #include <stdio.h>
 #include <malloc.h>
 
@@ -21,5 +21,43 @@ struct node {
 
 struct node * insertAtEveryKthNode(struct node *head, int K)
 {
-	return NULL;
+	if (head == NULL || K <= 0)
+		return NULL;
+	else
+	{
+		int length=0;
+		struct node *start = head;
+		int temp = K;
+		while (start != NULL)
+		{
+			length++;
+			start = start->next;
+		}
+		while (K <= length)
+		{
+			head=insert_any(K, K,head);
+			K = temp + K;
+		}
+	}
+	return head;
+}
+struct node *insert_any(int pos, int data_value,struct node *start)
+{
+	int key;
+	key = pos;
+
+	pos--;
+	struct node *temp = (struct node *)malloc(sizeof(struct node));
+
+	//Traverse till pos
+	struct node *ptr = start;
+	while (pos != 0)
+	{
+		ptr = ptr->next;
+		pos--;
+	}
+	temp->num = data_value;
+	temp->next = ptr->next;
+	ptr->next = temp;
+	return start;
 }

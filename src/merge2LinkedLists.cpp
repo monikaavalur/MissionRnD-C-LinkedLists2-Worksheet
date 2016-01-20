@@ -18,67 +18,23 @@ struct node {
 	int num;
 	struct node *next;
 };
-struct node *insert(struct node *start, int data);
+
 struct node * merge2LinkedLists(struct node *head1, struct node *head2) 
 {
-	if (head1 == NULL && head2 == NULL)
-		return NULL;
-	struct node *list3;//creating a new list and assigning null to it
-	list3 = NULL;
-	//loop to merge the two lists
-	while (head1 != NULL && head2 != NULL)
+	struct node *result = NULL;
+	if (head1 == NULL)
+		return head2;
+	else if (head2 == NULL)
+		return head1;
+	if (head1->num <= head2->num)
 	{
-		//assigning the numbers to list3 by checking the different conditoins below
-		if (head1->num < head2->num)
-		{
-			list3 = insert(list3, head1->num);
-			head1 = head1->next;
-		}
-		else if (head2->num < head1->num)
-		{
-			list3 = insert(list3, head2->num);
-			head2 = head2->next;
-		}
-		else if (head1->num == head2->num)
-		{
-			list3 = insert(list3, head1->num);
-			head1 = head1->next;
-			head2 = head2->next;
-		}
+		result = head1;
+		result->next = merge2LinkedLists(head1->next, head2);
 	}
-	//If second list has finished and elements left in first list
-	while (head1 != NULL)
-	{
-		list3 = insert(list3, head1->num);
-		head1 = head1->next;
+	else {
+		result = head2;
+		result->next = merge2LinkedLists(head1, head2->next);
 	}
-	//If first list has finished and elements left in second list
-	while (head2 != NULL)
-	{
-		list3 = insert(list3, head2->num);
-		head2 = head2->next;
-	}
-	return list3;
+	return result;
 }
-struct node *insert(struct node *start, int data)
-{
-	struct node *list, *temp;
-	temp = (struct node *)malloc(sizeof(struct node));
-	temp->num = data;
-	//If list is empty
-	if (start == NULL)
-	{
-		temp->next = start;
-		start = temp;
-		return start;
-	}
-	else    //Insert at the end of the list
-	{
-		list = start;
-		while (list->next != NULL)
-			list = list->next;
-		temp->next = list->next;
-		list->next = temp;
-	}
-	return start;
-}//End of insert()
+
