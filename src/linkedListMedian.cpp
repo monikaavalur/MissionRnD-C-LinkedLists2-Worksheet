@@ -22,7 +22,7 @@ struct node {
 int linkedListMedian(struct node *head) 
 {
 	if (head == NULL )
-		return NULL;
+		return -1;
 	if (head->next == NULL)
 		return head->num;
 	int length = 1;
