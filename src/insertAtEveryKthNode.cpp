@@ -10,7 +10,8 @@ ERROR CASES: Return NULL for error cases.
 
 NOTES:
 */
-struct node *insert_any(int pos, int data_value,struct node *head);
+int getCount(struct node *head);
+int insert_any(struct node *head, int pos, int data_value);
 #include <stdio.h>
 #include <malloc.h>
 
@@ -21,43 +22,56 @@ struct node {
 
 struct node * insertAtEveryKthNode(struct node *head, int K)
 {
+	int length = getCount(head);
 	if (head == NULL || K <= 0)
 		return NULL;
 	else
 	{
-		int length=0;
-		struct node *start = head;
 		int temp = K;
-		while (start != NULL)
+		int value = K;
+		length = 2 * length;
+		while (K<length)
 		{
-			length++;
-			start = start->next;
-		}
-		while (K <= length)
-		{
-			head=insert_any(K, K,head);
-			K = temp + K;
+			int result = insert_any(head,K, value);
+			if (result == 0)
+				break;
+			else
+				K = temp + K + 1;
 		}
 	}
 	return head;
 }
-struct node *insert_any(int pos, int data_value,struct node *start)
+int getCount(struct node *head)
 {
-	int key;
-	key = pos;
+	int count = 0;
+	struct node *ptr = head;
+	while (ptr != NULL)
+	{
+		count++;
+		ptr = ptr->next;
+	}
+	return count;
+}
 
-	pos--;
+int insert_any(struct node *head,int pos, int data_value)
+{
+	int flag;
 	struct node *temp = (struct node *)malloc(sizeof(struct node));
-
-	//Traverse till pos
-	struct node *ptr = start;
+	pos--;
+	struct node *new_node = head;
 	while (pos != 0)
 	{
-		ptr = ptr->next;
+		new_node = new_node->next;
+		if (new_node == NULL)
+		{
+			printf("\nList is not upto the position\n");
+			flag = 0;
+			return flag;
+			break;
+		}
 		pos--;
 	}
 	temp->num = data_value;
-	temp->next = ptr->next;
-	ptr->next = temp;
-	return start;
+	temp->next = new_node->next;
+	new_node->next = temp;
 }
